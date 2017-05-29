@@ -11,6 +11,12 @@ namespace GildedRose
 
         public void Tick()
         {
+            if (Name == "Rice")
+            {
+                TickNormal();
+                return;
+            }
+
             if (Name != "Aged Brie" && Name != "Backstage passes to a TAFKAL80ETC concert")
             {
                 if (Quality > 0)
@@ -80,6 +86,15 @@ namespace GildedRose
                     }
                 }
             }
+        }
+
+        void TickNormal()
+        {
+            SellIn = SellIn - 1;
+            if (Quality <= 0) return;
+
+            Quality = Quality - 1;
+            if (SellIn < 0) Quality = Quality - 1;
         }
     }
 }
