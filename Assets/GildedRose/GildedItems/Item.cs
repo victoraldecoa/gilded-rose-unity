@@ -19,6 +19,9 @@ namespace GildedRose
                 case "Aged Brie":
                     TickBrie();
                     return;
+                case "Sulfuras, Hand of Ragnaros":
+                    TickSulfuras();
+                    return;
             }
 
             if (Name != "Aged Brie" && Name != "Backstage passes to a TAFKAL80ETC concert")
@@ -90,6 +93,10 @@ namespace GildedRose
                     }
                 }
             }
+        }
+
+        void TickSulfuras()
+        {
         }
 
         void TickNormal()
