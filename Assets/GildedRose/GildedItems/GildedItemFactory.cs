@@ -10,7 +10,8 @@ namespace GildedRose
         {
             {"Backstage passes to a TAFKAL80ETC concert", typeof(BackstagePassItem)},
             {"Sulfuras, Hand of Ragnaros", typeof(SulfurasItem)},
-            {"Aged Brie", typeof(BrieItem)}
+            {"Aged Brie", typeof(BrieItem)},
+            {"Conjured Mana Cake", typeof(ConjuredItem)}
         };
 
         public IGildedItem CreateItem(string name, int quality, int sellIn)

@@ -219,8 +219,8 @@ namespace Editor.Tests
 		}
 		
 		// conjured item
-		
-		// TODO add [Test] clauses above each of these methods when you are ready to implement them
+	
+		[Test]
 		public void TestConjuredItemBeforeSellDate()
 		{
 			var item = CreateItem("Conjured Mana Cake", 10, 5);
@@ -229,6 +229,7 @@ namespace Editor.Tests
 			Assert.AreEqual(4, item.SellIn);
 		}
 	
+		[Test]
 		public void TestConjuredItemAtZeroQuality()
 		{
 			var item = CreateItem("Conjured Mana Cake", 0, 5);
@@ -237,6 +238,7 @@ namespace Editor.Tests
 			Assert.AreEqual(4, item.SellIn);
 		}
 	
+		[Test]
 		public void TestConjuredItemOnSellDate()
 		{
 			var item = CreateItem("Conjured Mana Cake", 10, 0);
@@ -245,6 +247,7 @@ namespace Editor.Tests
 			Assert.AreEqual(-1, item.SellIn);
 		}
 	
+		[Test]
 		public void TestConjuredItemOnSellDateAtZeroQuality()
 		{
 			var item = CreateItem("Conjured Mana Cake", 0, 0);
@@ -252,7 +255,8 @@ namespace Editor.Tests
 			Assert.AreEqual(0, item.Quality);
 			Assert.AreEqual(-1, item.SellIn);
 		}
-		
+	
+		[Test]
 		public void TestConjuredItemAfterSellDateAtZeroQuality()
 		{
 			var item = CreateItem("Conjured Mana Cake", 0, -3);
@@ -260,7 +264,8 @@ namespace Editor.Tests
 			Assert.AreEqual(0, item.Quality);
 			Assert.AreEqual(-4, item.SellIn);
 		}
-		
+	
+		[Test]
 		public void TestConjuredItemOnAfterDateAtAlmostZeroQuality()
 		{
 			var item = CreateItem("Conjured Mana Cake", 1, -3);
