@@ -13,9 +13,6 @@ namespace GildedRose
         {
             switch (Name)
             {
-                case "Aged Brie":
-                    TickBrie();
-                    return;
                 case "Sulfuras, Hand of Ragnaros":
                     TickSulfuras();
                     return;
@@ -38,14 +35,6 @@ namespace GildedRose
 
         void TickSulfuras()
         {
-        }
-
-        void TickBrie()
-        {
-            SellIn = SellIn - 1;
-            if (Quality < 50) Quality = Quality + 1;
-
-            if (SellIn < 0 && Quality < 50) Quality = Quality + 1;
         }
     }
 }

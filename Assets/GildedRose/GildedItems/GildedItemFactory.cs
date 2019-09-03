@@ -10,10 +10,16 @@ namespace GildedRose
         {
             switch (name)
             {
-                case "Aged Brie":
                 case "Sulfuras, Hand of Ragnaros":
                 case "Backstage passes to a TAFKAL80ETC concert":
                     return new Item
+                    {
+                        Name = name,
+                        Quality = quality,
+                        SellIn = sellIn
+                    };
+                case "Aged Brie":
+                    return new BrieItem
                     {
                         Name = name,
                         Quality = quality,
