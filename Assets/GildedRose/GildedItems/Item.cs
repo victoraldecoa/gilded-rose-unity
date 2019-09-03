@@ -13,9 +13,6 @@ namespace GildedRose
         {
             switch (Name)
             {
-                case "Sulfuras, Hand of Ragnaros":
-                    TickSulfuras();
-                    return;
                 case "Backstage passes to a TAFKAL80ETC concert":
                     TickBackstage();
                     return;
@@ -31,10 +28,6 @@ namespace GildedRose
             if (SellIn < 5 && Quality < 50) Quality = Quality + 1;
             
             if (SellIn < 0) Quality = 0;
-        }
-
-        void TickSulfuras()
-        {
         }
     }
 }
