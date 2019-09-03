@@ -6,39 +6,23 @@ namespace GildedRose
 {
     public class GildedItemFactory
     {
+        static readonly Dictionary<string, Type> typeMap = new Dictionary<string, Type>
+        {
+            {"Backstage passes to a TAFKAL80ETC concert", typeof(BackstagePassItem)},
+            {"Sulfuras, Hand of Ragnaros", typeof(SulfurasItem)},
+            {"Aged Brie", typeof(BrieItem)}
+        };
+
         public IGildedItem CreateItem(string name, int quality, int sellIn)
         {
-            switch (name)
-            {
-                case "Backstage passes to a TAFKAL80ETC concert":
-                    return new BackstagePassItem
-                    {
-                        Name = name,
-                        Quality = quality,
-                        SellIn = sellIn
-                    };
-                case "Sulfuras, Hand of Ragnaros":
-                    return new SulfurasItem
-                    {
-                        Name = name,
-                        Quality = quality,
-                        SellIn = sellIn
-                    };
-                case "Aged Brie":
-                    return new BrieItem
-                    {
-                        Name = name,
-                        Quality = quality,
-                        SellIn = sellIn
-                    };
-                default:
-                    return new DefaultItem
-                    {
-                        Name = name,
-                        Quality = quality,
-                        SellIn = sellIn
-                    };
-            }
+            var type = typeMap.ContainsKey(name) ? typeMap[name] : typeof(DefaultItem);
+
+            var item = CreateItem(type);
+            item.Name = name;
+            item.Quality = quality;
+            item.SellIn = sellIn;
+
+            return item;
         }
 
         // use this helper method to create items by their typeof
