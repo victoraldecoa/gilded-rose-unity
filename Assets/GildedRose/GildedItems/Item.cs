@@ -22,9 +22,6 @@ namespace GildedRose
                 case "Backstage passes to a TAFKAL80ETC concert":
                     TickBackstage();
                     return;
-                default:
-                    TickNormal();
-                    return;
             }
         }
 
@@ -41,15 +38,6 @@ namespace GildedRose
 
         void TickSulfuras()
         {
-        }
-
-        void TickNormal()
-        {
-            SellIn = SellIn - 1;
-            if (Quality <= 0) return;
-
-            Quality = Quality - 1;
-            if (SellIn < 0) Quality = Quality - 1;
         }
 
         void TickBrie()
