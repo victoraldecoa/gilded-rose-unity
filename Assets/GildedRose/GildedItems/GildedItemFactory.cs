@@ -11,7 +11,7 @@ namespace GildedRose
             switch (name)
             {
                 case "Backstage passes to a TAFKAL80ETC concert":
-                    return new Item
+                    return new BackstagePassItem
                     {
                         Name = name,
                         Quality = quality,
