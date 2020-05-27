@@ -6,10 +6,30 @@ namespace Editor.Tests
 {
 	public class GildedRoseTest
 	{
-		readonly GildedItemFactory _itemFactory = new GildedItemFactory();
-		IGildedItem CreateItem(string name, int quality, int sellIn)
+		class TestSubject
 		{
-			return _itemFactory.CreateItem(name, quality, sellIn);
+			public int SellIn { get; set; }
+			public int Quality { get; set; }
+
+			public IGildedItemTicker Ticker;
+
+			public void Tick()
+			{
+				var result = Ticker.Tick(new ItemData {SellIn = SellIn, Quality = Quality});
+				SellIn = result.SellIn;
+				Quality = result.Quality;
+			}
+		}
+		
+		readonly GildedItemFactory _itemFactory = new GildedItemFactory();
+		TestSubject CreateItem(string name, int quality, int sellIn)
+		{
+			return new TestSubject
+			{
+				Ticker = _itemFactory.CreateItem(name),
+				Quality = quality,
+				SellIn = sellIn
+			};
 		}
 
 		// normal item

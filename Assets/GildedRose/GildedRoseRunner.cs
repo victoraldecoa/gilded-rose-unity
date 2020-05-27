@@ -1,50 +1,76 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using GildedRose.GildedItems;
 using UnityEngine;
 
 namespace GildedRose
 {
+	struct ItemDataTickerPair
+	{
+		static readonly GildedItemFactory ItemFactory = new GildedItemFactory();
+		
+		public string Name;
+		public IGildedItemTicker Ticker;
+		public ItemData Data;
+		
+		public static ItemDataTickerPair CreateItem(string name, int quality, int sellIn)
+		{
+			return new ItemDataTickerPair
+			{
+				Name = name,
+				Ticker = ItemFactory.CreateItem(name),
+				Data = new ItemData { Quality = quality, SellIn = sellIn }
+			};
+		}
+	}
+	
 	public class GildedRoseRunner : MonoBehaviour
 	{
 		[SerializeField] GildedItemsPresenter _presenter;
 		
-		IList<IGildedItem> _items;
-		readonly GildedItemFactory _itemFactory = new GildedItemFactory();
-		
-		IGildedItem CreateItem(string itemName, int quality, int sellIn)
-		{
-			return _itemFactory.CreateItem(itemName, quality, sellIn);
-		}
+		IList<ItemDataTickerPair> _items;
 		
 		void Awake()
 		{
-			_items = new List<IGildedItem>
+			_items = new List<ItemDataTickerPair>
 			{
-				CreateItem("+5 Dexterity Vest", 20, 10),
-				CreateItem("Aged Brie", 0, 2),
-				CreateItem("Elixir of the Mongoose", 7, 5),
-				CreateItem("Sulfuras, Hand of Ragnaros", 80, 0),
-				CreateItem("Sulfuras, Hand of Ragnaros", 80, -1),
-				CreateItem("Backstage passes to a TAFKAL80ETC concert", 20, 15),
-				CreateItem("Backstage passes to a TAFKAL80ETC concert", 49, 10),
-				CreateItem("Backstage passes to a TAFKAL80ETC concert", 49, 5),
-				CreateItem("Conjured Mana Cake", 6, 3),
-				CreateItem("Conjured Mana Cake", 15, 1)
+				ItemDataTickerPair.CreateItem("+5 Dexterity Vest", 20, 10),
+				ItemDataTickerPair.CreateItem("Aged Brie", 0, 2),
+				ItemDataTickerPair.CreateItem("Elixir of the Mongoose", 7, 5),
+				ItemDataTickerPair.CreateItem("Sulfuras, Hand of Ragnaros", 80, 0),
+				ItemDataTickerPair.CreateItem("Sulfuras, Hand of Ragnaros", 80, -1),
+				ItemDataTickerPair.CreateItem("Backstage passes to a TAFKAL80ETC concert", 20, 15),
+				ItemDataTickerPair.CreateItem("Backstage passes to a TAFKAL80ETC concert", 49, 10),
+				ItemDataTickerPair.CreateItem("Backstage passes to a TAFKAL80ETC concert", 49, 5),
+				ItemDataTickerPair.CreateItem("Conjured Mana Cake", 6, 3),
+				ItemDataTickerPair.CreateItem("Conjured Mana Cake", 15, 1)
 			};
 		}
 
 		void Start()
 		{
-			_presenter.Create(_items);
+			_presenter.Create(CreateDataList());
 		}
 
 		public void Tick()
 		{
-			foreach (var item in _items)
+			for (var i = 0; i < _items.Count; i++)
 			{
-				item.Tick();
+				var item = _items[i];
+				item.Data = item.Ticker.Tick(item.Data);
+				_items[i] = item;
 			}
-			_presenter.UpdateItems(_items);
+			_presenter.UpdateItems(CreateDataList());
+		}
+
+		IList<ItemViewData> CreateDataList()
+		{
+			return _items.Select(i => new ItemViewData
+			{
+				Name = i.Name,
+				Quality = i.Data.Quality,
+				SellIn = i.Data.SellIn
+			}).ToArray();
 		}
 	}
 }

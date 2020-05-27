@@ -8,28 +8,22 @@ namespace GildedRose
     {
         static readonly Dictionary<string, Type> typeMap = new Dictionary<string, Type>
         {
-            {"Backstage passes to a TAFKAL80ETC concert", typeof(BackstagePassItem)},
-            {"Sulfuras, Hand of Ragnaros", typeof(SulfurasItem)},
-            {"Aged Brie", typeof(BrieItem)},
-            {"Conjured Mana Cake", typeof(ConjuredItem)}
+            {"Backstage passes to a TAFKAL80ETC concert", typeof(BackstagePassItemTicker)},
+            {"Sulfuras, Hand of Ragnaros", typeof(SulfurasItemTicker)},
+            {"Aged Brie", typeof(BrieItemTicker)},
+            {"Conjured Mana Cake", typeof(ConjuredItemTicker)}
         };
 
-        public IGildedItem CreateItem(string name, int quality, int sellIn)
+        public IGildedItemTicker CreateItem(string name)
         {
-            var type = typeMap.ContainsKey(name) ? typeMap[name] : typeof(DefaultItem);
-
-            var item = CreateItem(type);
-            item.Name = name;
-            item.Quality = quality;
-            item.SellIn = sellIn;
-
-            return item;
+            var type = typeMap.ContainsKey(name) ? typeMap[name] : typeof(DefaultItemTicker);
+            return CreateItem(type);
         }
 
         // use this helper method to create items by their typeof
-        static IGildedItem CreateItem(Type type)
+        static IGildedItemTicker CreateItem(Type type)
         {
-            var result = Activator.CreateInstance(type) as IGildedItem;
+            var result = Activator.CreateInstance(type) as IGildedItemTicker;
             if (result == null) throw new Exception(string.Format("Could not instantiate item of type: {0}", type));
             return result;
         }

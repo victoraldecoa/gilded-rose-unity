@@ -1,11 +1,17 @@
 using System.Collections.Generic;
 using System.Linq;
-using GildedRose.GildedItems;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace GildedRose
 {
+    public struct ItemViewData
+    {
+        public string Name { get; set; }
+        public int SellIn { get; set; }
+        public int Quality { get; set; }
+    }
+    
     public class GildedItemsPresenter : MonoBehaviour
     {
         [SerializeField] GameObject _list;
@@ -13,7 +19,7 @@ namespace GildedRose
 
         List<Text> _itemViews;
 
-        public void Create(IEnumerable<IGildedItem> items)
+        public void Create(IEnumerable<ItemViewData> items)
         {
             _itemViews = items.Select(item =>
             {
@@ -24,7 +30,7 @@ namespace GildedRose
             }).ToList();
         }
 
-        public void UpdateItems(IList<IGildedItem> items)
+        public void UpdateItems(IList<ItemViewData> items)
         {
             for (var i = 0; i < items.Count && i < _itemViews.Count; i++)
             {
@@ -34,7 +40,7 @@ namespace GildedRose
             }
         }
         
-        static void SetView(Text text, IGildedItem item)
+        static void SetView(Text text, ItemViewData item)
         {
             text.text = string.Format("Name: {0}\n" +
                                       "Quality: {1}\n" +
