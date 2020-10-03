@@ -7,10 +7,9 @@ namespace GildedRose
 {
 	struct ItemDataTickerPair
 	{
-		static readonly GildedItemFactory ItemFactory = new GildedItemFactory();
+		static readonly TickFunctionFactory TickFactory = new TickFunctionFactory();
 		
 		public string Name;
-		public IGildedItemTicker Ticker;
 		public ItemData Data;
 		
 		public static ItemDataTickerPair CreateItem(string name, int quality, int sellIn)
@@ -18,8 +17,7 @@ namespace GildedRose
 			return new ItemDataTickerPair
 			{
 				Name = name,
-				Ticker = ItemFactory.CreateItem(name),
-				Data = new ItemData { Quality = quality, SellIn = sellIn }
+				Data = new ItemData { Quality = quality, SellIn = sellIn, Tick = TickFactory.CreateTickFunction(name)}
 			};
 		}
 	}
@@ -57,7 +55,7 @@ namespace GildedRose
 			for (var i = 0; i < _items.Count; i++)
 			{
 				var item = _items[i];
-				item.Data = item.Ticker.Tick(item.Data);
+				item.Data = item.Data.Tick(item.Data);
 				_items[i] = item;
 			}
 			_presenter.UpdateItems(CreateDataList());

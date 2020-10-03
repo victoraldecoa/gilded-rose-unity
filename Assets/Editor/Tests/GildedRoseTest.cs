@@ -1,4 +1,5 @@
-﻿using GildedRose;
+﻿using System;
+using GildedRose;
 using GildedRose.GildedItems;
 using NUnit.Framework;
 
@@ -10,25 +11,26 @@ namespace Editor.Tests
 		{
 			public int SellIn { get; set; }
 			public int Quality { get; set; }
-
-			public IGildedItemTicker Ticker;
+			public Func<ItemData, ItemData> TickFunc { get; set; }
 
 			public void Tick()
 			{
-				var result = Ticker.Tick(new ItemData {SellIn = SellIn, Quality = Quality});
+				var data = new ItemData {SellIn = SellIn, Quality = Quality, Tick = TickFunc};
+				var result = data.Tick(data);
 				SellIn = result.SellIn;
 				Quality = result.Quality;
 			}
 		}
-		
-		readonly GildedItemFactory _itemFactory = new GildedItemFactory();
+
+		readonly TickFunctionFactory tickFactory = new TickFunctionFactory();
 		TestSubject CreateItem(string name, int quality, int sellIn)
 		{
+			
 			return new TestSubject
 			{
-				Ticker = _itemFactory.CreateItem(name),
 				Quality = quality,
-				SellIn = sellIn
+				SellIn = sellIn,
+				TickFunc = tickFactory.CreateTickFunction(name)
 			};
 		}
 
